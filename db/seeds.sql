@@ -42,7 +42,7 @@ VALUES ("Phoenix", "Ouyang", 1, NULL),
        ("Luna", "Lovegood", 10, 8),
        ("Tanjiro", "Kamado", 11, 2),
        ("Zenitsu", "Agatsuma", 12, 11),
-       ("Inosuke", "Hashibira", 12, 11)
+       ("Inosuke", "Hashibira", 12, 11),
        ("Nezuko", "Kamado", 13, 11),
        ("Joey", "Tribbiani", 14, 4),
        ("Rachel", "Green", 15, 14),
