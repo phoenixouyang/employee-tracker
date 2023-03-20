@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const {viewDepts, viewRoles, viewEmployees} = require('./lib/viewDB');
 const {addDept, addRole, addEmp} = require('./lib/addDB');
-const {getEmp, updateEmp} = require('./lib/updateDB');
+const {getEmp, updateEmp, deleteEmp} = require('./lib/updateDB');
 
 // Add a department
 const addDeptPrompt = [
@@ -184,7 +184,35 @@ async function updateEmpRole() {
     updateEmp(empNewRole, empChoice);
     console.log('Employee role has been updated!');
     returnMenu();
-}
+};
+
+// Delete an employee
+async function deleteEmpFunc() {
+    const tempArr = await getEmp();
+    const e = tempArr[0];
+  
+    e.forEach(item => {
+        empArr.push({name: item.first_name, value: item.id});
+    });
+
+    console.log(empArr)
+
+    const deleteEmpPrompt = [
+        {
+            type: 'list',
+            name: 'emp',
+            message: 'Which employee would you like to delete?',
+            choices: empArr
+        }
+    ]
+
+    let delEmpInq = await inquirer.prompt(deleteEmpPrompt);
+
+    empChoice = delEmpInq.emp;
+    deleteEmp(empChoice);
+    console.log('Employee has been deleted');
+    returnMenu();
+};
 
 // List of prompts for main menu
 const menu = [
@@ -200,7 +228,8 @@ const menu = [
             'Add a department',
             'Add a role',
             'Add an employee',
-            'Update an employee role'
+            'Update an employee role',
+            'Delete an employee'
         ]
     }
 ]
@@ -233,6 +262,8 @@ async function startMenu() {
         case 'Update an employee role':
             updateEmpRole();
             break;
+        case 'Delete an employee':
+            deleteEmpFunc()
         default:
             break;
     }
