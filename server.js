@@ -26,6 +26,62 @@ async function addDeptFunc() {
     returnMenu();
 }
 
+// Add a role
+const addRolePrompt = [
+    {
+        type: 'input',
+        name: 'title',
+        message: 'Please enter the title for the new role.',
+        validate: titleInput => {
+            if (titleInput) {
+                return true;
+            } else {
+                console.log('Please enter a title for the new role.')
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'Please enter the salary of the new role.',
+        validate: salaryInput => {
+            if (isNaN(salaryInput) || salaryInput <= 0) {
+                console.log('Please enter a valid amount, greater than $0.')
+                return false;
+            } else {
+                return true;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'department',
+        message: 'Please enter the department id of the new role',
+        validate: idInput => {
+            if (isNaN(idInput) || idInput <= 0) {
+                console.log('Please enter a valid number')
+                return false;
+            } else {
+                return true;
+            }
+        }
+    },
+
+]
+
+async function addRoleFunc() {
+    let newRoleInq = await inquirer.prompt(addRolePrompt);
+    let newRoleTitle = newRoleInq.title;
+    let newRoleSalary = newRoleInq.salary;
+    let newRoleID = newRoleInq.department;
+    addRole(newRoleTitle, newRoleSalary, newRoleID);
+    console.log('New role has been added sucessfully')
+    returnMenu();
+}
+
+// Add an employee
+
 
 // List of prompts for main menu
 const menu = [
@@ -66,7 +122,7 @@ async function startMenu() {
             addDeptFunc();
             break;
         case 'Add a role':
-            console.log('view roles')
+            addRoleFunc();
             break;
         case 'Add an employee':
             console.log('view roles')
