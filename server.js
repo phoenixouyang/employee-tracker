@@ -81,7 +81,72 @@ async function addRoleFunc() {
 }
 
 // Add an employee
+const addEmpPrompt = [
+    {
+        type: 'input',
+        name: 'firstname',
+        message: 'Please enter the first name of the new employee.',
+        validate: fnInput => {
+            if (fnInput) {
+                return true;
+            } else {
+                console.log('Please enter the first name of the new employee.')
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'lastname',
+        message: 'Please enter the last name of the new employee.',
+        validate: lnInput => {
+            if (lnInput) {
+                return true;
+            } else {
+                console.log('Please enter the first name of the new employee.')
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'role',
+        message: 'Please enter the role id of the employee',
+        validate: roleInput => {
+            if (!isNaN(roleInput) || roleInput === "" || roleInput >= 1) {
+                return true;
+            } else {
+                console.log('Please enter a valid id number')
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'manager',
+        message: "Please enter the id of the new employee's manager",
+        validate: managerInput => {
+            if (!isNaN(managerInput) || managerInput === "" | managerInput >= 1) {
+                return true;
+            } else {
+                console.log('Please enter a valid id number')
+                return false;
+            }
+        }
+    },
 
+]
+
+async function addEmpFunc() {
+    let newEmpInq = await inquirer.prompt(addEmpPrompt);
+    let newEmpFn = newEmpInq.firstname.charAt(0).toUpperCase() + newEmpInq.firstname.slice(1);
+    let newEmpLn = newEmpInq.lastname.charAt(0).toUpperCase() + newEmpInq.firstname.slice(1);
+    let newEmpRole = newEmpInq.role;
+    let newEmpMng = newEmpInq.manager;
+    addEmp(newEmpFn, newEmpLn, newEmpRole, newEmpMng);
+    console.log('New employee has been added successfully')
+    returnMenu();
+}
 
 // List of prompts for main menu
 const menu = [
@@ -125,7 +190,7 @@ async function startMenu() {
             addRoleFunc();
             break;
         case 'Add an employee':
-            console.log('view roles')
+            addEmpFunc();
             break;
         case 'Update an employee role':
             console.log('view roles')
