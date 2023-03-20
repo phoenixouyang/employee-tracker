@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const {viewDepts, viewRoles, viewEmployees} = require('./lib/viewDB');
 const {addDept, addRole, addEmp} = require('./lib/addDB');
+const {getEmp, updateEmp} = require('./lib/updateDB');
 
 // Add a department
 const addDeptPrompt = [
@@ -148,6 +149,43 @@ async function addEmpFunc() {
     returnMenu();
 }
 
+// Update an employee role
+let empArr = [];
+  
+
+async function updateEmpRole() {
+    const tempArr = await getEmp();
+    const e = tempArr[0];
+  
+    e.forEach(item => {
+        empArr.push({name: item.first_name, value: item.id});
+    });
+
+    console.log(empArr)
+
+    const updateEmpPrompt = [
+        {
+            type: 'list',
+            name: 'emp',
+            message: 'Which employee would you like to update?',
+            choices: empArr
+        },
+        {
+            type: 'input',
+            name: 'newRole',
+            message: "Please enter the ID of the employee's new role",
+        }
+    ]
+
+    let newEmpRoleInq = await inquirer.prompt(updateEmpPrompt);
+
+    empChoice = newEmpRoleInq.emp;
+    empNewRole = newEmpRoleInq.newRole;
+    updateEmp(empNewRole, empChoice);
+    console.log('Employee role has been updated!');
+    returnMenu();
+}
+
 // List of prompts for main menu
 const menu = [
     {
@@ -193,7 +231,7 @@ async function startMenu() {
             addEmpFunc();
             break;
         case 'Update an employee role':
-            console.log('view roles')
+            updateEmpRole();
             break;
         default:
             break;
